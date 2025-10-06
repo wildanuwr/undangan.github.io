@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    const queryString = window.location;
-    const url = new URL(queryString);
+    // Ambil nama dari URL (?untuk=Nama)
+    const url = new URL(window.location);
     const untuk = url.searchParams.get("untuk");
 
     if (untuk) {
@@ -8,62 +8,73 @@ $(document).ready(function() {
         $("#nama").val(untuk);
     }
 
+    // Jalankan efek slider (jika ada)
     $(".instagram-effects").slick({
         dots: true,
         slidesToShow: 1,
         slidesToScroll: 1,
     });
 
-    $.ajax({
-        //create an ajax request to display.php
-        type: "GET",
-        url: "./php/display.php",
-        dataType: "html", //expect html to be returned
-        success: function(response) {
-            $(".block-data-doa").append(response);
-        },
-    });
+    // --- TAMPILKAN DATA DOA SAAT AWAL ---
+    loadDataDoa();
 
-    $("#submit").click(function(){
-        var kehadiran;
-        if ($("#hadir"          ).prop("checked") ) kehadiran = "hadir";
-        if ($("#mungkin-hadir"  ).prop("checked") ) kehadiran = "mungkin-hadir";
-        if ($("#tidak-hadir"    ).prop("checked") ) kehadiran = "tidak-hadir";
+    // --- KETIKA TOMBOL KIRIM DIKLIK ---
+    $("#submit").click(function(e) {
+        e.preventDefault(); // cegah reload
 
-        console.log($("#nama").val())
-        console.log($("#lokasi").val())
-        console.log(kehadiran)
-        console.log($("#ucapan").val())
+        const nama = $("#nama").val().trim();
+        const lokasi = $("#lokasi").val().trim();
+        const ucapan = $("#ucapan").val().trim();
+        let kehadiran = $("input[name='kehadiran']:checked").val();
 
+        // Validasi sederhana
+        if (!nama || !lokasi || !kehadiran || !ucapan) {
+            alert("Semua field wajib diisi!");
+            return;
+        }
+
+        // Kirim data ke insert.php
         $.ajax({
-            type: 'POST',
+            type: "POST",
             url: "./php/insert.php",
             data: {
-                nama: $("#nama").val(),
-                lokasi: $("#lokasi").val(),
+                nama: nama,
+                lokasi: lokasi,
                 kehadiran: kehadiran,
-                ucapan: $("#ucapan").val(),
+                ucapan: ucapan,
                 submit: "insert"
             },
-            success: function (data) {
-                //alert(data.trim());
-                if (data == "success") {
-                    $.ajax({
-                        //create an ajax request to display.php
-                        type: "GET",
-                        url: "./php/display.php",
-                        dataType: "html", //expect html to be returned
-                        success: function(response) {
-                            $(".block-data-doa").empty();
-                            $(".block-data-doa").append(response);
-                        },
-                    });
+            success: function(data) {
+                console.log("Response:", data);
+                if (data.trim() === "success") {
+                    $("#ucapan").val("");
+                    $("input[name='kehadiran']").prop("checked", false);
+                    loadDataDoa(); // reload data terbaru
+                } else {
+                    alert("Gagal mengirim data: " + data);
                 }
-                // window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", error);
+                alert("Terjadi kesalahan koneksi!");
             }
         });
-
     });
+
+    // --- FUNCTION: muat ulang daftar doa ---
+    function loadDataDoa() {
+        $.ajax({
+            type: "GET",
+            url: "./php/display.php",
+            dataType: "html",
+            success: function(response) {
+                $(".block-data-doa").html(response);
+            },
+            error: function() {
+                $(".block-data-doa").html("<p>Gagal memuat data.</p>");
+            }
+        });
+    }
 });
 
 var x = document.getElementById("background_music");

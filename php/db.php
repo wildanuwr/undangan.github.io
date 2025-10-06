@@ -1,15 +1,15 @@
 <?php
-$servername = 'caboose.proxy.rlwy.net';
-$port       = 51651;
-$username   = 'root';
-$password   = 'kbDJQxMxtwxLUGugVyAzFHponcEmVYEY';
-$dbname     = 'railway';
+$host = "caboose.proxy.rlwy.net";
+$port = 51651;
+$user = "root";
+$pass = "kbDJQxMxtwxLUGugVyAzFHponcEmVYEY";
+$db   = "railway";
 
-$conn = mysqli_connect($servername, $username, $password, $dbname, $port);
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 if (!$conn) {
-    die('Koneksi gagal: ' . mysqli_connect_error());
+    die("Koneksi gagal: " . mysqli_connect_error());
+} else {
+    // echo "Koneksi berhasil";
 }
-
-echo "Koneksi sukses!";
 ?>

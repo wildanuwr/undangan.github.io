@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $ucapan = $_POST['ucapan'];
 
     // Gunakan nama tabel kirim_doa (bukan kirim-doa)
-    $stmt = $conn->prepare("INSERT INTO kirim_doa (nama, kota, kehadiran, ucapan) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO kirim (nama, kota, kehadiran, ucapan) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $nama, $lokasi, $kehadiran, $ucapan);
 
     if ($stmt->execute()) {
