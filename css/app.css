@@ -109,7 +109,7 @@ canvas {
     background-color: #232741;
     background-size: cover;
     background-position: 50% 50%;
-    background-image: url("../img/main-img.jpg");
+    background-image: url("../img/new/image1.jpg");
 }
 
 
@@ -272,6 +272,7 @@ a.bar-icon:hover {
     font-size: 120px;
     font-weight: 600;
     margin-bottom: 11rem;
+    line-height: 0.7;
 }
 
 .mobile-separator {
@@ -870,11 +871,36 @@ span.w3-button:hover {
 }
 
 .panggilan {
-    font-size: 86px;
+    font-size: 46px;
     font-weight: 500;
+    line-height: 20px;
+}
+
+/* Fade in/out */
+.fade-slide {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.fade-slide.show {
+  opacity: 1;
+}
+
+/* Floating effect */
+.floaty {
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 }
 
 .w-100 {
+    width: 60%;
+    margin: 0 auto;
+    display: block;
+}
+.w-full {
     width: 100%;
 }
 
@@ -1069,6 +1095,11 @@ input[type="radio"]:checked:after {
     width: 100%;
     z-index: 1;
     margin-top: -50px;
+}   
+
+.lapisan {
+    z-index: 999;
+    margin-top: 80px;
 }
 
 .w3-display-topright {

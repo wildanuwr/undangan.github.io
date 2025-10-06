@@ -1,2 +1,2 @@
 # undangan
-Undangan online
+Undangan Digital

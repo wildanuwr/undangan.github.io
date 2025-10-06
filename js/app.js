@@ -186,6 +186,30 @@ async function changeBackground(elemId, activeClass) {
     $(elemId).removeClass("active").addClass(activeClass);
 }
 
+  const images = [
+    "img/new/image1.jpg",
+    "img/new/image2.jpg",
+    "img/new/image3.jpg",
+    "img/new/image4.jpg"
+  ];
+
+  let index = 0;
+  const slideImg = document.getElementById("slide-img");
+
+  setInterval(() => {
+    // fade out dulu
+    slideImg.classList.remove("show");
+
+    setTimeout(() => {
+      // setelah hilang → ganti gambar
+      index = (index + 1) % images.length;
+      slideImg.src = images[index];
+
+      // lalu fade in lagi
+      slideImg.classList.add("show");
+    }, 1000); // sesuai waktu transition (1s)
+  }, 4000); // ganti gambar tiap 4 detik
+  
 document.addEventListener("DOMContentLoaded", function() {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -292,3 +316,4 @@ document.addEventListener("DOMContentLoaded", function() {
         },
     });
 });
+
