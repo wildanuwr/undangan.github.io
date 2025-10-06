@@ -1,18 +1,24 @@
 <?php
 include_once 'db.php';
-if(isset($_POST['submit']))
-{
-     $nama = $_POST['nama'];
-     $lokasi = $_POST['lokasi'];
-     $kehadiran = $_POST['kehadiran'];
-     $ucapan = $_POST['ucapan'];
-     $sql = "INSERT INTO `kirim-doa` (`nama`, `kota`, `kehadiran`, `ucapan`) VALUES ('$nama', '$lokasi', '$kehadiran', '$ucapan')";
-     if (mysqli_query($conn, $sql)) {
+
+if (isset($_POST['submit'])) {
+    $nama = $_POST['nama'];
+    $lokasi = $_POST['lokasi'];
+    $kehadiran = $_POST['kehadiran'];
+    $ucapan = $_POST['ucapan'];
+
+    // Gunakan nama tabel kirim_doa (bukan kirim-doa)
+    $stmt = $conn->prepare("INSERT INTO kirim_doa (nama, kota, kehadiran, ucapan) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $nama, $lokasi, $kehadiran, $ucapan);
+
+    if ($stmt->execute()) {
         echo "success";
-     } else {
-        echo "Error: " . $sql . ":-" . mysqli_error($conn);
-     }
-     mysqli_close($conn);
+        // header('Location: ../index.html'); // aktifkan kalau mau redirect
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
 }
-   // header('Location: ../index.html');
 ?>

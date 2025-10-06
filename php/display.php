@@ -2,7 +2,7 @@
 
     include_once 'db.php';
     
-    $sql = "SELECT * FROM `kirim-doa`";
+    $sql = "SELECT * FROM `kirim_doa`";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
